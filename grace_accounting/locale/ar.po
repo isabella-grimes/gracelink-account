@@ -1,0 +1,35 @@
+# Arabic translations for G.R.A.C.E accounts
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+
+msgid "Your {0} plan allows {1} {2}. Upgrade your plan to add more."
+msgstr "باقتك {0} تسمح بـ {1} {2}. قم بترقية باقتك لإضافة المزيد."
+
+msgid "Plan limit reached"
+msgstr "تم الوصول إلى حد الباقة"
+
+msgid "users"
+msgstr "مستخدمين"
+
+msgid "invoices per month"
+msgstr "فاتورة شهريًا"
+
+msgid "warehouses"
+msgstr "مستودعات"
+
+msgid "companies"
+msgstr "شركات"
+
+msgid "Economic"
+msgstr "الاقتصادية"
+
+msgid "Basic"
+msgstr "الأساسية"
+
+msgid "Comprehensive"
+msgstr "الشاملة"
+
+msgid "Unknown subscription plan '{0}'. Contact support."
+msgstr "باقة اشتراك غير معروفة '{0}'. يرجى التواصل مع الدعم."

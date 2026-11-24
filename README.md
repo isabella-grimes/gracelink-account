@@ -9,6 +9,10 @@ What it changes:
 - **Emails.** The "Sent via ERPNext" footer is removed.
 - **Theme.** A plum primary color, a soft grey canvas, white rounded cards, a solid plum active sidebar item, and pill-shaped status badges. Arabic text uses IBM Plex Sans Arabic.
 
+### Subscription plans (for the hosted platform)
+
+`plans.py` enforces per-tenant limits on users, monthly invoices, warehouses, companies and HR/Payroll access. The operator sets them in each site's `site_config.json` (`grace_plan`, optional `grace_limits`), which tenants can't edit. A site with no plan is not limited. `provisioning.py` sets up a new tenant with Saudi defaults. See the `platform` branch for the scripts that use both.
+
 ### Install
 
 ```bash

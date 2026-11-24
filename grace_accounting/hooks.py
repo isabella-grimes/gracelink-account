@@ -29,3 +29,18 @@ email_brand_image = "assets/grace_accounting/images/grace-logo.svg"
 # can't bring the ERPNext name back.
 after_install = "grace_accounting.branding.apply_branding"
 after_migrate = "grace_accounting.branding.apply_branding"
+
+# ---------------------------------------------------------------- subscription plans
+# Limits per tenant site; see grace_accounting/plans.py
+doc_events = {
+	"User": {"validate": "grace_accounting.plans.validate_user"},
+	"Sales Invoice": {"before_insert": "grace_accounting.plans.before_insert_invoice"},
+	"POS Invoice": {"before_insert": "grace_accounting.plans.before_insert_invoice"},
+	"Warehouse": {"before_insert": "grace_accounting.plans.before_insert_warehouse"},
+	"Company": {"before_insert": "grace_accounting.plans.before_insert_company"},
+}
+
+has_permission = {"*": "grace_accounting.plans.has_permission"}
+permission_query_conditions = {"*": "grace_accounting.plans.permission_query_conditions"}
+
+boot_session = "grace_accounting.plans.boot_session"
