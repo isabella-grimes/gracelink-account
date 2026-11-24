@@ -1,0 +1,12 @@
+# Shared Traefik config. One route file per tenant (site-*.yml) is added by the scripts.
+http:
+  services:
+    grace-frontend:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:8080"
+  middlewares:
+    redirect-https:
+      redirectScheme:
+        scheme: https
+        permanent: true

@@ -1,0 +1,4 @@
+.env
+tenants/
+backups/
+traefik/dynamic/site-*.yml
