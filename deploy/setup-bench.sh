@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# GRACE Accounting: ERPNext v16 + KSA Compliance (ZATCA Phase 1 & 2) on a fresh bench.
+# G.R.A.C.E accounts: ERPNext v16 + KSA Compliance (ZATCA Phase 1 & 2) + branding, on a fresh bench.
 #
 # Usage:
 #   ./setup-bench.sh <site-name> [bench-dir]
@@ -19,6 +19,8 @@ ERPNEXT_REPO="https://github.com/isabella-grimes/gracelink-account"
 ERPNEXT_BRANCH="version-16"
 KSA_REPO="https://github.com/isabella-grimes/ksa_compliance"
 KSA_BRANCH="master"
+GRACE_REPO="https://github.com/isabella-grimes/gracelink-account"
+GRACE_BRANCH="grace_accounting"
 
 if [ ! -d "$BENCH_DIR" ]; then
   bench init --frappe-branch "$FRAPPE_BRANCH" "$BENCH_DIR"
@@ -28,6 +30,8 @@ cd "$BENCH_DIR"
 # The fork keeps the app name "erpnext", so bench installs it as apps/erpnext.
 [ -d apps/erpnext ]        || bench get-app --branch "$ERPNEXT_BRANCH" "$ERPNEXT_REPO"
 [ -d apps/ksa_compliance ] || bench get-app --branch "$KSA_BRANCH" "$KSA_REPO"
+# Branding app lives on its own branch of the same repo; bench names it grace_accounting.
+[ -d apps/grace_accounting ] || bench get-app --branch "$GRACE_BRANCH" "$GRACE_REPO"
 bench setup requirements
 
 if [ ! -d "sites/$SITE" ]; then
@@ -36,7 +40,9 @@ fi
 
 bench --site "$SITE" install-app erpnext
 bench --site "$SITE" install-app ksa_compliance
+bench --site "$SITE" install-app grace_accounting   # last, so its branding wins
 bench --site "$SITE" migrate
+bench build --app grace_accounting
 bench --site "$SITE" set-config default_site "$SITE" || true
 
 echo

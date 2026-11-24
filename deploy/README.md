@@ -1,12 +1,13 @@
-# GRACE Accounting: deployment
+# G.R.A.C.E accounts: deployment
 
-GRACE Accounting runs as a standard Frappe bench with two apps:
+G.R.A.C.E accounts runs as a standard Frappe bench with these apps:
 
 | App | Repo | Branch | Role |
 |---|---|---|---|
 | frappe | frappe/frappe | `version-16` | Framework |
 | erpnext | isabella-grimes/gracelink-account | `version-16` | Accounting, POS, inventory, HR |
 | ksa_compliance | isabella-grimes/ksa_compliance | `master` | ZATCA e-invoicing, Phase 1 & 2 |
+| grace_accounting | isabella-grimes/gracelink-account | `grace_accounting` | G.R.A.C.E branding and theme |
 
 **Why `version-16` and not `develop`:** ksa_compliance supports Frappe `>=15,<17`. The `develop`
 branch of this fork is v17-dev, which ksa_compliance does not support and which isn't stable.
@@ -32,15 +33,15 @@ docker build \
   --build-arg=FRAPPE_PATH=https://github.com/frappe/frappe \
   --build-arg=FRAPPE_BRANCH=version-16 \
   --build-arg=APPS_JSON_BASE64=$APPS_JSON_BASE64 \
-  --tag=grace-accounting:16 \
+  --tag=grace-accounts:16 \
   --file=images/layered/Containerfile .
 ```
 
-Then run it with frappe_docker's `pwd.yml` or compose setup, using image `grace-accounting:16`, and
+Then run it with frappe_docker's `pwd.yml` or compose setup, using image `grace-accounts:16`, and
 install both apps on the site:
 
 ```bash
-bench --site <site> install-app erpnext ksa_compliance
+bench --site <site> install-app erpnext ksa_compliance grace_accounting
 ```
 
 ## ZATCA onboarding, after install
