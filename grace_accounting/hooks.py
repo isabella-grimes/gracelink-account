@@ -1,0 +1,31 @@
+app_name = "grace_accounting"
+app_title = "G.R.A.C.E accounts"
+app_publisher = "GraceLink"
+app_description = "G.R.A.C.E accounts: branding and theme for ERPNext"
+app_email = "info@gracelink.sa"
+app_license = "gpl-3.0"
+
+required_apps = ["frappe/erpnext"]
+
+BRAND_LOGO = "/assets/grace_accounting/images/grace-logo.svg"
+BRAND_FAVICON = "/assets/grace_accounting/images/grace-favicon.svg"
+
+app_logo_url = BRAND_LOGO
+
+# Theme for the desk (/app) and for the website/login pages
+app_include_css = ["/assets/grace_accounting/css/grace_theme.css"]
+web_include_css = ["/assets/grace_accounting/css/grace_theme.css"]
+
+# Installed after ERPNext, so these values win over ERPNext's favicon and splash
+website_context = {
+	"favicon": BRAND_FAVICON,
+	"splash_image": BRAND_LOGO,
+}
+
+email_brand_image = "assets/grace_accounting/images/grace-logo.svg"
+
+# Write the brand name, logo, favicon and translations into the site settings.
+# Runs on install and again on every `bench migrate`, so an ERPNext update
+# can't bring the ERPNext name back.
+after_install = "grace_accounting.branding.apply_branding"
+after_migrate = "grace_accounting.branding.apply_branding"

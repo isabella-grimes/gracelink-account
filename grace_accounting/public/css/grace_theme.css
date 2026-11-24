@@ -1,0 +1,163 @@
+/* G.R.A.C.E accounts theme
+ * Plum primary, soft grey canvas, white rounded cards. Light mode only;
+ * dark mode keeps Frappe's own palette.
+ * Colors are defined once here: change the --grace-* values to rebrand.
+ */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap");
+
+:root {
+	--grace-plum: #4b2a37;
+	--grace-plum-hover: #3a1f2b;
+	--grace-plum-tint: #f3ecef;
+	--grace-pink: #e46fa0;
+	--grace-canvas: #f4f5f7;
+	--grace-success-bg: #e8f7ee;
+	--grace-success-fg: #1f9254;
+	--grace-danger-bg: #fdecef;
+	--grace-danger-fg: #c0364f;
+	--grace-radius-card: 16px;
+	--grace-radius-control: 10px;
+	--grace-card-shadow: 0 1px 2px rgba(17, 12, 34, 0.04), 0 4px 16px rgba(17, 12, 34, 0.04);
+}
+
+[data-theme="light"] {
+	--primary: var(--grace-plum);
+	--primary-color: var(--grace-plum);
+	--btn-primary: var(--grace-plum);
+	--bg-color: var(--grace-canvas);
+	--sidebar-select-color: var(--grace-plum-tint);
+	--border-radius-lg: var(--grace-radius-card);
+	--border-radius-xl: 20px;
+	--border-radius-md: var(--grace-radius-control);
+	--card-shadow: var(--grace-card-shadow);
+}
+
+/* Arabic: same layout, Arabic-friendly font */
+[dir="rtl"] body,
+[dir="rtl"] {
+	--font-stack: "IBM Plex Sans Arabic", "InterVariable", "Inter", system-ui, sans-serif;
+	font-family: var(--font-stack);
+}
+
+/* ---------- Canvas & cards ---------- */
+[data-theme="light"] body,
+[data-theme="light"] .page-container,
+[data-theme="light"] .layout-main-section-wrapper {
+	background-color: var(--grace-canvas);
+}
+
+[data-theme="light"] .frappe-card,
+[data-theme="light"] .widget,
+[data-theme="light"] .number-widget-box,
+[data-theme="light"] .dashboard-widget-box,
+[data-theme="light"] .layout-main-section,
+[data-theme="light"] .form-page,
+[data-theme="light"] .report-wrapper {
+	background-color: #fff;
+	border-radius: var(--grace-radius-card);
+	border-color: transparent;
+	box-shadow: var(--grace-card-shadow);
+}
+
+[data-theme="light"] .widget .widget-head .widget-title,
+[data-theme="light"] .number-widget-box .widget-title {
+	font-weight: 600;
+	color: var(--heading-color);
+}
+
+/* ---------- Buttons ---------- */
+[data-theme="light"] .btn-primary,
+[data-theme="light"] .btn.btn-primary {
+	background-color: var(--grace-plum);
+	border-color: var(--grace-plum);
+	color: #fff;
+	border-radius: var(--grace-radius-control);
+}
+
+[data-theme="light"] .btn-primary:hover,
+[data-theme="light"] .btn-primary:focus,
+[data-theme="light"] .btn-primary:active {
+	background-color: var(--grace-plum-hover);
+	border-color: var(--grace-plum-hover);
+	color: #fff;
+}
+
+[data-theme="light"] .btn-default,
+[data-theme="light"] .btn-secondary {
+	border-radius: var(--grace-radius-control);
+}
+
+/* ---------- Sidebar: active item is solid plum ---------- */
+[data-theme="light"] .body-sidebar {
+	background-color: #fff;
+}
+
+[data-theme="light"] .body-sidebar .standard-sidebar-item.active-sidebar {
+	background-color: var(--grace-plum);
+	border-radius: var(--grace-radius-control);
+}
+
+[data-theme="light"] .body-sidebar .standard-sidebar-item.active-sidebar .item-anchor,
+[data-theme="light"] .body-sidebar .standard-sidebar-item.active-sidebar .sidebar-item-label,
+[data-theme="light"] .body-sidebar .standard-sidebar-item.active-sidebar .sidebar-item-icon,
+[data-theme="light"] .body-sidebar .standard-sidebar-item.active-sidebar .sidebar-item-control {
+	color: #fff;
+	--icon-stroke: #fff;
+}
+
+/* ---------- Inputs & search ---------- */
+[data-theme="light"] .form-control,
+[data-theme="light"] .search-bar .form-control,
+[data-theme="light"] .awesomplete input {
+	border-radius: var(--grace-radius-control);
+}
+
+/* ---------- Status pills (Paid / Unpaid / Overdue ...) ---------- */
+[data-theme="light"] .indicator-pill,
+[data-theme="light"] .badge {
+	border-radius: 999px;
+	font-weight: 500;
+}
+
+[data-theme="light"] .indicator-pill.green {
+	background-color: var(--grace-success-bg);
+	color: var(--grace-success-fg);
+}
+
+[data-theme="light"] .indicator-pill.red {
+	background-color: var(--grace-danger-bg);
+	color: var(--grace-danger-fg);
+}
+
+/* ---------- List & report tables ---------- */
+[data-theme="light"] .list-row-head,
+[data-theme="light"] .dt-row-header {
+	background-color: #fafafb;
+	color: var(--text-muted);
+	font-weight: 500;
+}
+
+[data-theme="light"] .list-row-container .list-row:hover,
+[data-theme="light"] .dt-row:hover {
+	background-color: var(--grace-plum-tint);
+}
+
+/* ---------- Charts: plum/pink series ---------- */
+[data-theme="light"] .frappe-chart .line-graph-path,
+[data-theme="light"] .frappe-chart path.line {
+	stroke: var(--grace-pink);
+}
+
+/* ---------- Login page ---------- */
+.page-card,
+.login-content.page-card {
+	border-radius: 20px;
+	box-shadow: var(--grace-card-shadow);
+}
+
+.for-login .btn-primary,
+.for-signup .btn-primary,
+.for-forgot .btn-primary {
+	background-color: var(--grace-plum);
+	border-color: var(--grace-plum);
+}

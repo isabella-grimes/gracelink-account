@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 64" role="img" aria-label="G.R.A.C.E accounts">
+  <rect width="64" height="64" rx="16" fill="#4B2A37"/>
+  <path d="M41.5 22.5A13 13 0 1 0 45 33H33" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="48.5" cy="47.5" r="3.5" fill="#E46FA0"/>
+  <text x="80" y="31" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="24" font-weight="700" fill="#2A1820" letter-spacing="1">G.R.A.C.E</text>
+  <text x="81" y="52" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="15" font-weight="500" fill="#8A7480" letter-spacing="3">ACCOUNTS</text>
+</svg>
