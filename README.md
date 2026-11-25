@@ -10,9 +10,22 @@ What it changes:
 - **Emails.** The "Sent via ERPNext" footer is removed.
 - **Theme.** Navy primary, globe-blue accents and gold highlights (taken from the logo), a soft grey canvas, white rounded cards, a solid navy active sidebar item, and pill-shaped status badges. Arabic text uses IBM Plex Sans Arabic. In dark mode the wordmark switches to its light version.
 
+### Commercial models
+
+GraceERP Solution is sold in two ways. The operator sets the model per site in `site_config.json`, which tenants can't edit:
+
+| | Monthly subscription | Lifetime licence |
+|---|---|---|
+| Hosting and maintenance | By GraceERP, on the platform | By the customer, on their own server |
+| Support | 24/7 by the GraceERP team | Per the licence terms |
+| Limits | The site's plan tier (below) | None |
+| Setting | `bench --site <site> set-config grace_license subscription` | `bench --site <site> set-config grace_license lifetime` |
+
+The About dialog shows which model applies. Sites without `grace_license` behave as before.
+
 ### Subscription plans (for the hosted platform)
 
-`plans.py` enforces per-tenant limits on users, monthly invoices, warehouses, companies and HR/Payroll access. The operator sets them in each site's `site_config.json` (`grace_plan`, optional `grace_limits`), which tenants can't edit. A site with no plan is not limited. `provisioning.py` sets up a new tenant with Saudi defaults. See the `platform` branch for the scripts that use both.
+`plans.py` enforces per-tenant limits on users, monthly invoices, warehouses, companies and HR/Payroll access. The operator sets them in each site's `site_config.json` (`grace_plan`, optional `grace_limits`), which tenants can't edit. A site with no plan, or with a lifetime licence, is not limited. Invoices created by `grace_travel` (air tickets, travel vouchers) never count towards the monthly invoice limit. `provisioning.py` sets up a new tenant with Saudi defaults. See the `platform` branch for the scripts that use both.
 
 ### Demo data
 

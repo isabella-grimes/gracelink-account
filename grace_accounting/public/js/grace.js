@@ -13,11 +13,17 @@
 	// Replace the stock About dialog (framework logo, links and versions).
 	function about() {
 		const support = frappe.boot.grace_support_url;
+		const LICENSES = {
+			subscription: __("Monthly subscription · Hosted and supported 24/7 by GraceERP"),
+			lifetime: __("Lifetime licence · Self-hosted"),
+		};
+		const license = LICENSES[frappe.boot.grace_license] || "";
 		const dialog = new frappe.ui.Dialog({ title: __("About") });
 		$(dialog.body).html(`
 			<div class="grace-about" style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:12px 0 6px;text-align:center">
 				<img src="${is_dark() ? WORDMARK_LIGHT : WORDMARK}" alt="${BRAND}" style="height:56px">
 				<p class="text-muted" style="margin:0">${__("ZATCA-compliant ERP and accounting for Saudi and Gulf businesses.")}</p>
+				${license ? `<p class="small" style="margin:0;color:var(--grace-gold, #b88020);font-weight:600">${license}</p>` : ""}
 				${grace_version() ? `<p class="text-muted small" style="margin:0">${__("Version")} ${frappe.utils.escape_html(grace_version())}</p>` : ""}
 				${
 					support

@@ -63,3 +63,12 @@ msgstr "اختياري"
 
 msgid "Chart of Accounts"
 msgstr "دليل الحسابات"
+
+msgid "Monthly subscription · Hosted and supported 24/7 by GraceERP"
+msgstr "اشتراك شهري · استضافة ودعم على مدار الساعة من GraceERP"
+
+msgid "Lifetime licence · Self-hosted"
+msgstr "ترخيص مدى الحياة · استضافة ذاتية"
+
+msgid "Unknown licence type '{0}'. Contact support."
+msgstr "نوع ترخيص غير معروف '{0}'. يرجى التواصل مع الدعم."

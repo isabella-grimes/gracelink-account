@@ -1,9 +1,21 @@
-"""Subscription plans for GraceERP Solution tenants.
+"""Commercial models and subscription plans for GraceERP Solution.
 
-Each customer business is one site. The platform operator sets that
-site's plan in its site_config.json, which tenants cannot edit:
+There are two ways to buy GraceERP Solution, set per site in its
+site_config.json (which tenants cannot edit):
 
-    bench --site acme.example.sa set-config grace_plan basic
+- Monthly subscription: hosted, maintained and supported 24/7 by GraceERP
+  on the platform. Limited by the site's plan tier.
+
+      bench --site acme.example.sa set-config grace_license subscription
+      bench --site acme.example.sa set-config grace_plan basic
+
+- Lifetime licence: paid once; the customer hosts and manages their own
+  server. No limits at all.
+
+      bench --site erp.acme.sa set-config grace_license lifetime
+
+Sites without grace_license behave as before: limited by grace_plan if one
+is set, unlimited otherwise.
 
 Optional per-tenant overrides of any limit:
 
@@ -18,6 +30,10 @@ from frappe import _
 from frappe.utils import get_first_day, nowdate
 
 UNLIMITED = None
+
+SUBSCRIPTION = "subscription"
+LIFETIME = "lifetime"
+LICENSE_TYPES = (SUBSCRIPTION, LIFETIME)
 
 PLANS = {
 	"economic": {
@@ -63,12 +79,22 @@ class PlanLimitError(frappe.ValidationError):
 # ---------------------------------------------------------------- plan lookup
 
 
+def get_license_type() -> str | None:
+	""""subscription", "lifetime", or None for sites set up before licence types existed."""
+	license_type = frappe.conf.get("grace_license") or None
+	if license_type and license_type not in LICENSE_TYPES:
+		frappe.throw(_("Unknown licence type '{0}'. Contact support.").format(license_type))
+	return license_type
+
+
 def get_plan_name() -> str | None:
 	return frappe.conf.get("grace_plan") or None
 
 
 def get_limits() -> dict | None:
-	"""The active limits for this site, or None if the site has no plan."""
+	"""The active limits for this site, or None if it has none (lifetime licence or no plan)."""
+	if get_license_type() == LIFETIME:
+		return None
 	plan_name = get_plan_name()
 	if not plan_name:
 		return None
@@ -116,13 +142,23 @@ def count_users() -> int:
 	)
 
 
+def _has_travel_reference(doctype: str) -> bool:
+	"""True when grace_travel is installed: it marks the invoices it creates."""
+	return frappe.get_meta(doctype).has_field("travel_reference_doctype")
+
+
 def count_invoices_this_month() -> int:
+	"""Invoices this month, not counting the ones grace_travel creates for tickets and vouchers."""
 	start = get_first_day(nowdate())
-	return sum(
-		frappe.db.count(dt, {"posting_date": (">=", start), "docstatus": ("!=", 2)})
-		for dt in INVOICE_DOCTYPES
-		if frappe.db.table_exists(dt)
-	)
+	total = 0
+	for dt in INVOICE_DOCTYPES:
+		if not frappe.db.table_exists(dt):
+			continue
+		filters = {"posting_date": (">=", start), "docstatus": ("!=", 2)}
+		if _has_travel_reference(dt):
+			filters["travel_reference_doctype"] = ("is", "not set")
+		total += frappe.db.count(dt, filters)
+	return total
 
 
 def _translated(name: str) -> set[str]:
@@ -154,6 +190,7 @@ def get_usage() -> dict:
 	frappe.only_for(("System Manager", "Administrator"))
 	limits = get_limits()
 	return {
+		"license": get_license_type(),
 		"plan": get_plan_name(),
 		"limits": limits,
 		"usage": {
@@ -180,6 +217,9 @@ def validate_user(doc, method=None):
 
 
 def before_insert_invoice(doc, method=None):
+	# Travel tickets and vouchers are what a travel agency bills: never capped.
+	if doc.get("travel_reference_doctype"):
+		return
 	_check("invoices_per_month", count_invoices_this_month(), "invoices per month")
 
 
@@ -242,5 +282,6 @@ def permission_query_conditions(user=None, doctype=None):
 
 
 def boot_session(bootinfo):
+	bootinfo.grace_license = get_license_type()
 	limits = get_limits()
 	bootinfo.grace_plan = {"name": get_plan_name(), "limits": limits} if limits else None
