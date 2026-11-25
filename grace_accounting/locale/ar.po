@@ -1,4 +1,4 @@
-# Arabic translations for G.R.A.C.E accounts
+# Arabic translations for GraceERP Solution (the brand name itself is never translated)
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,8 +34,8 @@ msgstr "الشاملة"
 msgid "Unknown subscription plan '{0}'. Contact support."
 msgstr "باقة اشتراك غير معروفة '{0}'. يرجى التواصل مع الدعم."
 
-msgid "ZATCA-compliant cloud accounting for Saudi businesses."
-msgstr "محاسبة سحابية متوافقة مع هيئة الزكاة والضريبة والجمارك للشركات السعودية."
+msgid "ZATCA-compliant ERP and accounting for Saudi and Gulf businesses."
+msgstr "نظام تخطيط موارد ومحاسبة متوافق مع هيئة الزكاة والضريبة والجمارك للشركات في السعودية والخليج."
 
 msgid "Contact Support"
 msgstr "تواصل مع الدعم"

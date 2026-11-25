@@ -1,15 +1,17 @@
-/* G.R.A.C.E accounts theme
- * Plum primary, soft grey canvas, white rounded cards. Light mode only;
- * dark mode keeps the default palette.
+/* GraceERP Solution theme
+ * Navy primary, globe-blue accents, gold highlights (sampled from the logo),
+ * soft grey canvas, white rounded cards. Light mode only; dark mode keeps the
+ * default palette (logos switch to their light versions).
  * Colors are defined once here: change the --grace-* values to rebrand.
  */
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap");
 
 :root {
-	--grace-plum: #4b2a37;
-	--grace-plum-hover: #3a1f2b;
-	--grace-plum-tint: #f3ecef;
-	--grace-pink: #e46fa0;
+	--grace-primary: #0f2f6e; /* navy */
+	--grace-primary-hover: #0a2252;
+	--grace-primary-tint: #eaf1fb;
+	--grace-accent: #3070c8; /* globe blue */
+	--grace-gold: #b88020;
 	--grace-canvas: #f4f5f7;
 	--grace-success-bg: #e8f7ee;
 	--grace-success-fg: #1f9254;
@@ -17,15 +19,15 @@
 	--grace-danger-fg: #c0364f;
 	--grace-radius-card: 16px;
 	--grace-radius-control: 10px;
-	--grace-card-shadow: 0 1px 2px rgba(17, 12, 34, 0.04), 0 4px 16px rgba(17, 12, 34, 0.04);
+	--grace-card-shadow: 0 1px 2px rgba(15, 47, 110, 0.05), 0 4px 16px rgba(15, 47, 110, 0.05);
 }
 
 [data-theme="light"] {
-	--primary: var(--grace-plum);
-	--primary-color: var(--grace-plum);
-	--btn-primary: var(--grace-plum);
+	--primary: var(--grace-primary);
+	--primary-color: var(--grace-primary);
+	--btn-primary: var(--grace-primary);
 	--bg-color: var(--grace-canvas);
-	--sidebar-select-color: var(--grace-plum-tint);
+	--sidebar-select-color: var(--grace-primary-tint);
 	--border-radius-lg: var(--grace-radius-card);
 	--border-radius-xl: 20px;
 	--border-radius-md: var(--grace-radius-control);
@@ -68,8 +70,8 @@
 /* ---------- Buttons ---------- */
 [data-theme="light"] .btn-primary,
 [data-theme="light"] .btn.btn-primary {
-	background-color: var(--grace-plum);
-	border-color: var(--grace-plum);
+	background-color: var(--grace-primary);
+	border-color: var(--grace-primary);
 	color: #fff;
 	border-radius: var(--grace-radius-control);
 }
@@ -77,16 +79,16 @@
 [data-theme="light"] .btn-primary:hover,
 [data-theme="light"] .btn-primary:focus,
 [data-theme="light"] .btn-primary:active {
-	background-color: var(--grace-plum-hover);
-	border-color: var(--grace-plum-hover);
+	background-color: var(--grace-primary-hover);
+	border-color: var(--grace-primary-hover);
 	color: #fff;
 }
 
-/* New-style (v16) buttons: plum for the default theme; red/other themes untouched */
+/* New-style (v16) buttons: navy for the default theme; red/other themes untouched */
 html:not([data-theme="dark"]) .es-button:not([data-theme]) {
-	--bt-solid-bg: var(--grace-plum);
-	--bt-solid-bg-hover: var(--grace-plum-hover);
-	--bt-solid-bg-active: var(--grace-plum-hover);
+	--bt-solid-bg: var(--grace-primary);
+	--bt-solid-bg-hover: var(--grace-primary-hover);
+	--bt-solid-bg-active: var(--grace-primary-hover);
 }
 
 [data-theme="light"] .btn-default,
@@ -94,13 +96,13 @@ html:not([data-theme="dark"]) .es-button:not([data-theme]) {
 	border-radius: var(--grace-radius-control);
 }
 
-/* ---------- Sidebar: active item is solid plum ---------- */
+/* ---------- Sidebar: active item is solid navy ---------- */
 [data-theme="light"] .body-sidebar {
 	background-color: #fff;
 }
 
 [data-theme="light"] .body-sidebar .standard-sidebar-item.active-sidebar {
-	background-color: var(--grace-plum);
+	background-color: var(--grace-primary);
 	border-radius: var(--grace-radius-control);
 }
 
@@ -146,13 +148,23 @@ html:not([data-theme="dark"]) .es-button:not([data-theme]) {
 
 [data-theme="light"] .list-row-container .list-row:hover,
 [data-theme="light"] .dt-row:hover {
-	background-color: var(--grace-plum-tint);
+	background-color: var(--grace-primary-tint);
 }
 
-/* ---------- Charts: plum/pink series ---------- */
+/* ---------- Charts: globe-blue series ---------- */
 [data-theme="light"] .frappe-chart .line-graph-path,
 [data-theme="light"] .frappe-chart path.line {
-	stroke: var(--grace-pink);
+	stroke: var(--grace-accent);
+}
+
+/* ---------- Links and focus: globe blue ---------- */
+[data-theme="light"] a:not(.btn):not(.item-anchor):not(.dropdown-item):hover {
+	color: var(--grace-accent);
+}
+
+[data-theme="light"] .form-control:focus {
+	border-color: var(--grace-accent);
+	box-shadow: 0 0 0 2px rgba(48, 112, 200, 0.18);
 }
 
 /* ---------- Login page ---------- */
@@ -165,8 +177,8 @@ html:not([data-theme="dark"]) .es-button:not([data-theme]) {
 .for-login .btn-primary,
 .for-signup .btn-primary,
 .for-forgot .btn-primary {
-	background-color: var(--grace-plum);
-	border-color: var(--grace-plum);
+	background-color: var(--grace-primary);
+	border-color: var(--grace-primary);
 }
 
 /* ---------- Upstream tutorial videos in onboarding panels ---------- */
@@ -197,4 +209,18 @@ img[src*="/assets/frappe/images/frappe-wordmark"] {
 html[dir="rtl"],
 html[dir="rtl"] body {
 	overflow-x: clip;
+}
+
+/* ---------- Logo: the animated globe ----------
+ * The globe floats and rotates inside its own SVG (and stops for users who
+ * prefer reduced motion). Give it a little more room on the login page. */
+.page-card-head .app-logo,
+.login-content .app-logo {
+	width: 72px;
+	height: 72px;
+}
+
+/* Dark mode: wordmark with light text */
+[data-theme="dark"] img[src*="/assets/grace_accounting/images/grace-wordmark.svg"] {
+	content: url("/assets/grace_accounting/images/grace-wordmark-light.svg");
 }

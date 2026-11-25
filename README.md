@@ -1,14 +1,14 @@
-## G.R.A.C.E accounts
+## GraceERP Solution
 
 Branding and theme app for ERPNext v16. It sits on top of an unmodified ERPNext, so updating ERPNext never removes the branding.
 
 What it changes:
 
-- **Name.** The product name becomes "G.R.A.C.E accounts" in the browser tab, the login page and the desk. Upstream product names are replaced in English and Arabic, including the HR app, which becomes "G.R.A.C.E HR".
-- **White-label.** The About dialog, help menu (with your own support link, `grace_support_url`), app switcher and apps screen, website footer, onboarding panels and emails show only G.R.A.C.E.
-- **Logo and favicon.** Your logo appears in the navbar, the login page, the apps screen, the splash screen and emails (PNG, so Gmail and Outlook show it).
+- **Name.** The product name becomes "GraceERP Solution" in the browser tab, the login page and the desk. The name is never translated: it reads the same in every language. Upstream product names are replaced **in every language used on the site** (English, Arabic, the system language and each user's language), including the HR app, which becomes "GraceERP HR". The rest of the UI stays fully translated.
+- **White-label.** The About dialog, help menu (with your own support link, `grace_support_url`), app switcher and apps screen, website footer, onboarding panels and emails show only GraceERP Solution.
+- **Logo and favicon.** A floating, auto-rotating blue globe. It turns once every 24 seconds and gently bobs up and down. The animation lives inside the SVG itself, so it works anywhere the logo appears: navbar, login page, apps screen, splash screen and About dialog. For users whose system asks for reduced motion, it stays still on a view of Arabia. The favicon is a static globe, and emails get a PNG of the wordmark so Gmail and Outlook show it.
 - **Emails.** The "Sent via ERPNext" footer is removed.
-- **Theme.** A plum primary color, a soft grey canvas, white rounded cards, a solid plum active sidebar item, and pill-shaped status badges. Arabic text uses IBM Plex Sans Arabic.
+- **Theme.** Navy primary, globe-blue accents and gold highlights (taken from the logo), a soft grey canvas, white rounded cards, a solid navy active sidebar item, and pill-shaped status badges. Arabic text uses IBM Plex Sans Arabic. In dark mode the wordmark switches to its light version.
 
 ### Subscription plans (for the hosted platform)
 
@@ -36,11 +36,17 @@ Install it **after** erpnext, because it needs erpnext. The branding is applied 
 ### Rebrand or tweak
 
 - **Colors and corners:** the `--grace-*` variables at the top of `grace_accounting/public/css/grace_theme.css`.
-- **Logo:** replace the SVGs in `grace_accounting/public/images/`. `grace-logo.svg` is the square mark and `grace-wordmark.svg` is the logo with the name.
-- **Name and renamed text:** `BRAND_NAME` and `TEXT_REPLACEMENTS` in `grace_accounting/branding.py`.
+- **Logo:** replace the SVGs in `grace_accounting/public/images/`. `grace-logo.svg` is the animated globe, `grace-favicon.svg` the static one, `grace-wordmark.svg` / `grace-wordmark-light.svg` the logo with the name (for light and dark backgrounds), and `grace-hr-logo.svg` the HR tile. `grace-email-logo.png` is a still of the wordmark.
+- **Name and renamed text:** `BRAND_NAME`, `NAME_REPLACEMENTS` and `CUSTOM_TEXT` (hand-written wording per language) in `grace_accounting/branding.py`.
 - **About dialog and app tiles:** `grace_accounting/public/js/grace.js`.
 
 After any change, run `bench build --app grace_accounting && bench --site <site> migrate`.
+
+### Tests
+
+```bash
+bench --site <test-site> run-tests --app grace_accounting
+```
 
 ### License
 

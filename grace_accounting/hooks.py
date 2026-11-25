@@ -1,7 +1,7 @@
 app_name = "grace_accounting"
-app_title = "G.R.A.C.E accounts"
+app_title = "GraceERP Solution"
 app_publisher = "GraceLink"
-app_description = "G.R.A.C.E accounts: branding and theme for ERPNext"
+app_description = "GraceERP Solution: branding and theme for ERPNext"
 app_email = "info@gracelink.sa"
 app_license = "gpl-3.0"
 
@@ -35,7 +35,12 @@ after_migrate = "grace_accounting.branding.apply_branding"
 # ---------------------------------------------------------------- subscription plans
 # Limits per tenant site; see grace_accounting/plans.py
 doc_events = {
-	"User": {"validate": "grace_accounting.plans.validate_user"},
+	"User": {
+		"validate": "grace_accounting.plans.validate_user",
+		# Brand a language as soon as someone starts using it (multilingual)
+		"on_update": "grace_accounting.branding.on_language_change",
+	},
+	"System Settings": {"on_update": "grace_accounting.branding.on_language_change"},
 	"Sales Invoice": {"before_insert": "grace_accounting.plans.before_insert_invoice"},
 	"POS Invoice": {"before_insert": "grace_accounting.plans.before_insert_invoice"},
 	"Warehouse": {"before_insert": "grace_accounting.plans.before_insert_warehouse"},

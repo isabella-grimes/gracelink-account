@@ -1,4 +1,4 @@
-"""Subscription plans for G.R.A.C.E accounts tenants.
+"""Subscription plans for GraceERP Solution tenants.
 
 Each customer business is one site. The platform operator sets that
 site's plan in its site_config.json, which tenants cannot edit:
