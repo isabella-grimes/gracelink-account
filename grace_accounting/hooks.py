@@ -14,6 +14,7 @@ app_logo_url = BRAND_LOGO
 
 # Theme for the desk (/app) and for the website/login pages
 app_include_css = ["/assets/grace_accounting/css/grace_theme.css"]
+app_include_js = ["/assets/grace_accounting/js/grace.js"]
 web_include_css = ["/assets/grace_accounting/css/grace_theme.css"]
 
 # Installed after ERPNext, so these values win over ERPNext's favicon and splash
@@ -22,7 +23,8 @@ website_context = {
 	"splash_image": BRAND_LOGO,
 }
 
-email_brand_image = "assets/grace_accounting/images/grace-logo.svg"
+# PNG, because many email apps (Gmail, Outlook) don't show SVG images
+email_brand_image = "assets/grace_accounting/images/grace-email-logo.png"
 
 # Write the brand name, logo, favicon and translations into the site settings.
 # Runs on install and again on every `bench migrate`, so an ERPNext update
@@ -43,4 +45,7 @@ doc_events = {
 has_permission = {"*": "grace_accounting.plans.has_permission"}
 permission_query_conditions = {"*": "grace_accounting.plans.permission_query_conditions"}
 
-boot_session = "grace_accounting.plans.boot_session"
+boot_session = [
+	"grace_accounting.plans.boot_session",
+	"grace_accounting.branding.boot_session",
+]

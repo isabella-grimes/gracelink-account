@@ -1,6 +1,6 @@
 """Subscription plans for G.R.A.C.E accounts tenants.
 
-Each customer business is one Frappe site. The platform operator sets that
+Each customer business is one site. The platform operator sets that
 site's plan in its site_config.json, which tenants cannot edit:
 
     bench --site acme.example.sa set-config grace_plan basic
@@ -224,7 +224,7 @@ def _is_hr_doctype(doctype: str) -> bool:
 def has_permission(doc, ptype=None, user=None, debug=False):
 	"""Deny HR/Payroll documents on plans without HR.
 
-	Frappe treats any falsy return as "deny", so everything else must return True
+	A falsy return means "deny", so everything else must return True
 	(which only means "no objection": it never grants a permission the user lacks).
 	"""
 	if _hr_allowed(user):

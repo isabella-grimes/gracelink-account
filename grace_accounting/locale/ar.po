@@ -33,3 +33,33 @@ msgstr "الشاملة"
 
 msgid "Unknown subscription plan '{0}'. Contact support."
 msgstr "باقة اشتراك غير معروفة '{0}'. يرجى التواصل مع الدعم."
+
+msgid "ZATCA-compliant cloud accounting for Saudi businesses."
+msgstr "محاسبة سحابية متوافقة مع هيئة الزكاة والضريبة والجمارك للشركات السعودية."
+
+msgid "Contact Support"
+msgstr "تواصل مع الدعم"
+
+msgid "Help & Support"
+msgstr "المساعدة والدعم"
+
+msgid "System"
+msgstr "النظام"
+
+msgid "Sign In"
+msgstr "تسجيل الدخول"
+
+msgid "Welcome! Please sign in to continue."
+msgstr "مرحبًا! سجّل الدخول للمتابعة."
+
+msgid "Forgot password?"
+msgstr "نسيت كلمة السر؟"
+
+msgid "Continue"
+msgstr "متابعة"
+
+msgid "Optional"
+msgstr "اختياري"
+
+msgid "Chart of Accounts"
+msgstr "دليل الحسابات"

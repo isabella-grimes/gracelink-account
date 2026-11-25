@@ -1,6 +1,6 @@
 /* G.R.A.C.E accounts theme
  * Plum primary, soft grey canvas, white rounded cards. Light mode only;
- * dark mode keeps Frappe's own palette.
+ * dark mode keeps the default palette.
  * Colors are defined once here: change the --grace-* values to rebrand.
  */
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap");
@@ -82,6 +82,13 @@
 	color: #fff;
 }
 
+/* New-style (v16) buttons: plum for the default theme; red/other themes untouched */
+html:not([data-theme="dark"]) .es-button:not([data-theme]) {
+	--bt-solid-bg: var(--grace-plum);
+	--bt-solid-bg-hover: var(--grace-plum-hover);
+	--bt-solid-bg-active: var(--grace-plum-hover);
+}
+
 [data-theme="light"] .btn-default,
 [data-theme="light"] .btn-secondary {
 	border-radius: var(--grace-radius-control);
@@ -160,4 +167,34 @@
 .for-forgot .btn-primary {
 	background-color: var(--grace-plum);
 	border-color: var(--grace-plum);
+}
+
+/* ---------- Upstream tutorial videos in onboarding panels ---------- */
+.onboarding-step-media:has(.onboarding-video),
+.onboarding-video {
+	display: none !important;
+}
+
+/* ---------- Replace upstream logos wherever they still appear ---------- */
+img[src*="/assets/erpnext/images/erpnext-logo"],
+img[src*="/assets/frappe/images/frappe-logo"],
+img[src*="/assets/frappe/images/frappe-favicon"] {
+	content: url("/assets/grace_accounting/images/grace-logo.svg");
+}
+
+img[src*="/assets/hrms/images/frappe-hr-logo"] {
+	content: url("/assets/grace_accounting/images/grace-hr-logo.svg");
+}
+
+img[src*="/assets/frappe/images/frappe-framework-logo"],
+img[src*="/assets/frappe/images/frappe-comp-logo"],
+img[src*="/assets/frappe/images/frappe-wordmark"] {
+	content: url("/assets/grace_accounting/images/grace-wordmark.svg");
+}
+
+/* Arabic (RTL): hidden off-screen helper elements (left: -9999px) otherwise
+   stretch the page sideways and add a long horizontal scrollbar. */
+html[dir="rtl"],
+html[dir="rtl"] body {
+	overflow-x: clip;
 }
