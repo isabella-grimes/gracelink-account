@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Restore a tenant from a backup folder made by backup.sh (overwrites the tenant's current data).
-#   ./scripts/restore-tenant.sh acme backups/2026-11-25_0200/acme.graceaccounts.sa
+#   ./scripts/restore-tenant.sh acme backups/2026-11-25_0200/acme.erp.gracelinkgroup.com
 # If the site no longer exists it is created first, then restored.
 . "$(dirname "$0")/common.sh"
 

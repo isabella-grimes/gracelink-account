@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the G.R.A.C.E accounts app image (accounting, HR, ZATCA and branding apps)
+# Build the GraceERP Solution app image (accounting, HR, ZATCA and branding apps)
 # from apps.json. Takes 10-20 minutes. Rerun to pick up app updates.
 #   ./scripts/build.sh            # uses GRACE_IMAGE:GRACE_TAG from .env
 set -euo pipefail

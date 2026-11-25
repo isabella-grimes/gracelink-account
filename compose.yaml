@@ -1,4 +1,4 @@
-# G.R.A.C.E accounts platform: one stack serving every tenant (customer business).
+# GraceERP Solution platform: one stack serving every tenant (customer business).
 # Each tenant is a separate site with its own database, on its own domain.
 #
 # Start:   ./scripts/install.sh       (first time)

@@ -1,4 +1,4 @@
-# Builds the G.R.A.C.E accounts image on GitHub and publishes it to GitHub Container Registry,
+# Builds the GraceERP Solution image on GitHub and publishes it to GitHub Container Registry,
 # so servers only need to pull it. Runs when apps.json changes on this branch, weekly
 # (to pick up ERPNext/ZATCA fixes), or manually from the Actions tab.
 # Servers then use in .env:
