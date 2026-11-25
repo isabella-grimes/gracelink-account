@@ -1,5 +1,5 @@
 # G.R.A.C.E accounts platform: one stack serving every tenant (customer business).
-# Each tenant is a separate Frappe site with its own database, on its own domain.
+# Each tenant is a separate site with its own database, on its own domain.
 #
 # Start:   ./scripts/install.sh       (first time)
 # Manage:  ./scripts/new-tenant.sh, set-plan.sh, list-tenants.sh, backup.sh, update.sh
@@ -90,6 +90,7 @@ services:
         bench set-config -g redis_socketio "redis://redis-queue:6379";
         bench set-config -gp socketio_port 9000;
         bench set-config -g chromium_path /usr/lib/chromium/chromium-headless-shell;
+        bench set-config -g grace_support_url "${SUPPORT_URL:-}";
     volumes:
       - sites:/home/frappe/frappe-bench/sites
     depends_on:

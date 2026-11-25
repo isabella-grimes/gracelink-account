@@ -17,7 +17,7 @@ else
   bench --site "$SITE" set-config grace_plan "$PLAN"
 fi
 if [ "${3:-}" = "--limits" ] && [ -n "$LIMITS" ]; then
-  # Frappe parses -p values as Python literals; convert from JSON and check the keys.
+  # set-config -p reads Python literals; convert from JSON and check the keys.
   PYLIMITS=$(python3 - "$LIMITS" <<'PY'
 import json, sys
 allowed = {"users", "invoices_per_month", "warehouses", "companies", "hr"}
