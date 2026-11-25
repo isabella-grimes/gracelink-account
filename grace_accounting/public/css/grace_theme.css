@@ -214,10 +214,11 @@ html[dir="rtl"] body {
 /* ---------- Logo: the animated globe ----------
  * The globe floats and rotates inside its own SVG (and stops for users who
  * prefer reduced motion). Give it a little more room on the login page. */
-.page-card-head .app-logo,
-.login-content .app-logo {
-	width: 72px;
-	height: 72px;
+.login-content .page-card-head img.app-logo,
+.page-card .page-card-head img.app-logo {
+	width: 76px;
+	height: 76px;
+	max-height: none;
 }
 
 /* Dark mode: wordmark with light text */

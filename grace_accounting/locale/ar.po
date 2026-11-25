@@ -72,3 +72,6 @@ msgstr "ترخيص مدى الحياة · استضافة ذاتية"
 
 msgid "Unknown licence type '{0}'. Contact support."
 msgstr "نوع ترخيص غير معروف '{0}'. يرجى التواصل مع الدعم."
+
+msgid "About"
+msgstr "حول"
