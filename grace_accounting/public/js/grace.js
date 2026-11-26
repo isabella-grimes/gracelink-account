@@ -1,7 +1,9 @@
-// G.R.A.C.E accounts: desk branding that can't be done with settings or CSS.
+// GraceERP Solution: desk branding that can't be done with settings or CSS.
 (function () {
-	const BRAND = "G.R.A.C.E accounts";
+	const BRAND = "GraceERP Solution"; // never translated: the same in every language
 	const WORDMARK = "/assets/grace_accounting/images/grace-wordmark.svg";
+	const WORDMARK_LIGHT = "/assets/grace_accounting/images/grace-wordmark-light.svg";
+	const is_dark = () => document.documentElement.getAttribute("data-theme") === "dark";
 
 	function grace_version() {
 		const versions = (frappe.boot && frappe.boot.versions) || {};
@@ -10,16 +12,18 @@
 
 	// Replace the stock About dialog (framework logo, links and versions).
 	function about() {
-		if (frappe.ui.misc.grace_about_dialog) {
-			frappe.ui.misc.grace_about_dialog.show();
-			return;
-		}
 		const support = frappe.boot.grace_support_url;
+		const LICENSES = {
+			subscription: __("Monthly subscription · Hosted and supported 24/7 by GraceERP"),
+			lifetime: __("Lifetime licence · Self-hosted"),
+		};
+		const license = LICENSES[frappe.boot.grace_license] || "";
 		const dialog = new frappe.ui.Dialog({ title: __("About") });
 		$(dialog.body).html(`
 			<div class="grace-about" style="display:flex;flex-direction:column;align-items:center;gap:14px;padding:12px 0 6px;text-align:center">
-				<img src="${WORDMARK}" alt="${BRAND}" style="height:44px">
-				<p class="text-muted" style="margin:0">${__("ZATCA-compliant cloud accounting for Saudi businesses.")}</p>
+				<img src="${is_dark() ? WORDMARK_LIGHT : WORDMARK}" alt="${BRAND}" style="height:56px">
+				<p class="text-muted" style="margin:0">${__("ZATCA-compliant ERP and accounting for Saudi and Gulf businesses.")}</p>
+				${license ? `<p class="small" style="margin:0;color:var(--grace-gold, #b88020);font-weight:600">${license}</p>` : ""}
 				${grace_version() ? `<p class="text-muted small" style="margin:0">${__("Version")} ${frappe.utils.escape_html(grace_version())}</p>` : ""}
 				${
 					support
@@ -28,7 +32,6 @@
 				}
 				<p class="text-muted small" style="margin:6px 0 0">© ${new Date().getFullYear()} ${BRAND}</p>
 			</div>`);
-		frappe.ui.misc.grace_about_dialog = dialog;
 		dialog.show();
 	}
 
@@ -36,7 +39,7 @@
 	// sidebar header and apps screen (frappe.boot is already set when this runs).
 	const TILES = {
 		erpnext: { title: BRAND, logo: "/assets/grace_accounting/images/grace-logo.svg" },
-		hrms: { title: "G.R.A.C.E HR", logo: "/assets/grace_accounting/images/grace-hr-logo.svg" },
+		hrms: { title: "GraceERP HR", logo: "/assets/grace_accounting/images/grace-hr-logo.svg" },
 		frappe: { title: __("System"), logo: "/assets/grace_accounting/images/grace-logo.svg" },
 	};
 	function rebrand_boot(boot) {

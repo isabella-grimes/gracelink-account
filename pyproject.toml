@@ -3,7 +3,7 @@ name = "grace_accounting"
 authors = [
     { name = "GraceLink", email = "info@gracelink.sa" }
 ]
-description = "G.R.A.C.E accounts: branding and theme for ERPNext"
+description = "GraceERP Solution: branding and theme for ERPNext"
 requires-python = ">=3.14"
 readme = "README.md"
 dynamic = ["version"]

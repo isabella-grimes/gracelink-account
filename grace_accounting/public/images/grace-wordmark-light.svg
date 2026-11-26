@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 64" role="img" aria-label="GraceERP Solution">
+	<title>GraceERP Solution</title>
+	<defs>
+		<radialGradient id="l-ocean" cx="0.36" cy="0.32" r="0.75">
+			<stop offset="0" stop-color="#7DB6F2"/>
+			<stop offset="0.42" stop-color="#3070C8"/>
+			<stop offset="0.78" stop-color="#1F55AE"/>
+			<stop offset="1" stop-color="#0F2F6E"/>
+		</radialGradient>
+		<radialGradient id="l-shade" cx="0.4" cy="0.36" r="0.68">
+			<stop offset="0.55" stop-color="#06173F" stop-opacity="0"/>
+			<stop offset="1" stop-color="#06173F" stop-opacity="0.55"/>
+		</radialGradient>
+		<radialGradient id="l-shine" cx="0.5" cy="0.5" r="0.5">
+			<stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
+			<stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+		</radialGradient>
+		<clipPath id="l-clip"><circle cx="32" cy="30" r="24"/></clipPath>
+		<radialGradient id="l-fade" cx="0.5" cy="0.5" r="0.5">
+			<stop offset="0.6" stop-color="#FFFFFF"/>
+			<stop offset="1" stop-color="#FFFFFF" stop-opacity="0.25"/>
+		</radialGradient>
+		<mask id="l-limb" maskUnits="userSpaceOnUse" x="8" y="6" width="48" height="48"><circle cx="32" cy="30" r="24" fill="url(#l-fade)"/></mask>
+		<path id="l-land" d="M5 13 L12 11 L20 10.5 L27 12 L31 14 L29 17 L26 18 L25 21 L22 24 L23.5 27.5 L22.5 27.8 L19.5 25.5 L15 21 L11 18 L7 17 Z M33 9 L40 8.5 L42 11 L38 14.5 L35 13 Z M26.5 28.5 L31 27.5 L36 30 L38.5 32 L36 37 L33 41 L31 45 L29.5 44 L30 39 L27.5 33 Z M45.4 13.6 L47 13 L47.3 15.6 L45.8 15.8 Z M46.5 19 L47 15.5 L49 12 L54 11 L58 12 L58.5 16 L55.5 18 L51 19.5 Z M44 21 L49 20 L53 20.6 L56.6 22.4 L58.4 26.6 L61.5 27.4 L59 31 L57.5 35 L55 38.5 L52.5 39 L50.5 33 L49 28 L45 27 L43.5 24 Z M57.4 22.4 L61 23 L64 25.6 L62.6 27.6 L59.6 28.2 L58.2 25 Z M58.6 12 L66 10 L76 9.5 L86 10 L95 12 L93 15 L89 17 L86 20 L84 23 L80 23.6 L78 27 L76 25 L73 24 L70.4 27.8 L68.4 24.6 L65 22.6 L62 21 L60 18 L58.6 15 Z M88 17 L90 16 L90.6 19 L88.6 20.2 Z M79 28.6 L84 29 L86.4 30.6 L81 30.8 Z M78.6 34 L83 32.6 L88 33.6 L89.6 37 L86 40 L80 39.6 L78 37 Z"/>
+	</defs>
+	<style>
+		.l-float { animation: l-bob 4.8s ease-in-out infinite alternate; }
+		.l-spin { transform: translateX(-36px); animation: l-turn 24s linear -15.00s infinite; }
+		.l-shadow { transform-box: fill-box; transform-origin: center; animation: l-shadow 4.8s ease-in-out infinite alternate; }
+		@keyframes l-bob { from { transform: translateY(1.2px); } to { transform: translateY(-1.8px); } }
+		@keyframes l-turn { from { transform: translateX(-96px); } to { transform: translateX(0px); } }
+		@keyframes l-shadow { from { transform: scale(1); opacity: 0.22; } to { transform: scale(0.78); opacity: 0.12; } }
+		@media (prefers-reduced-motion: reduce) {
+			.l-float, .l-spin, .l-shadow { animation: none; }
+		}
+	</style>
+	<g class="l-float">
+		<circle cx="32" cy="30" r="25.2" fill="#8CC4FF" opacity="0.28"/>
+		<circle cx="32" cy="30" r="24" fill="url(#l-ocean)"/>
+		<g clip-path="url(#l-clip)">
+			<g mask="url(#l-limb)"><g transform="rotate(-14 32 30) translate(8 0)">
+				<g class="l-spin" fill="#D4E8FD" fill-opacity="0.94">
+					<use href="#l-land" x="-96"/>
+					<use href="#l-land"/>
+					<use href="#l-land" x="96"/>
+				</g>
+			</g></g>
+			<circle cx="32" cy="30" r="24" fill="url(#l-shade)"/>
+			<ellipse cx="23" cy="19" rx="11" ry="7" fill="url(#l-shine)" transform="rotate(-30 23 19)"/>
+		</g>
+		<circle cx="32" cy="30" r="24" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="0.6"/>
+	</g>
+	<text x="72" y="33" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="27" font-weight="800" fill="#FFFFFF" letter-spacing="0.2">Grace<tspan fill="#8CC4FF">ERP</tspan></text>
+	<text x="73.5" y="51" font-family="Inter, 'Segoe UI', Arial, sans-serif" font-size="12.5" font-weight="600" fill="#E2B65A" letter-spacing="4.2">SOLUTION</text>
+</svg>
