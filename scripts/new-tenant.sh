@@ -49,6 +49,9 @@ bench --site "$SITE" scheduler enable   # background jobs: ZATCA submissions, em
 
 echo "==> Applying plan: $PLAN"
 bench --site "$SITE" set-config grace_plan "$PLAN"
+# Every tenant on this platform is a monthly subscription (hosted, maintained and
+# supported 24/7 by GraceERP). Lifetime-licence customers host their own server.
+bench --site "$SITE" set-config grace_license subscription
 
 echo "==> Setting up company and owner account"
 KWARGS=$(python3 - "$COMPANY" "$EMAIL" "$NAME" "$PASSWORD" "$LANG_CODE" "$ABBR" <<'PY'

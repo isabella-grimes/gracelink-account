@@ -1,12 +1,18 @@
-# G.R.A.C.E accounts: platform
+# GraceERP Solution: platform
 
 This kit runs a ZATCA-compliant accounting service for many customer businesses from one server, like Alostaz.io. Each customer (tenant) gets:
 
 - their own site, with a separate database;
-- their own address, such as `acme.graceaccounts.sa` or their own domain;
+- their own address, such as `acme.erp.gracelinkgroup.com` or their own domain;
 - a subscription plan that limits users, invoices, warehouses, companies and HR.
 
-Everything customers see carries the G.R.A.C.E accounts name and logo: screens, menus, the About dialog, emails and the website footer. Arabic is the default, with full right-to-left layout.
+Everything customers see carries the GraceERP Solution name and logo: screens, menus, the About dialog, emails and the website footer. Arabic is the default, with full right-to-left layout.
+
+**Two ways to buy GraceERP Solution:**
+- **Monthly subscription:** the customer is a tenant on this platform, hosted, maintained and supported 24/7 by GraceERP, and limited by their plan. `new-tenant.sh` marks every tenant this way (`grace_license = subscription`), and `update.sh` marks tenants created earlier.
+- **Lifetime licence:** paid once. The customer runs GraceERP Solution on their own server, so not on this platform, with `grace_license = lifetime` and no limits.
+
+`list-tenants.sh` shows each tenant's licence next to its plan.
 
 ## Demo
 
@@ -46,8 +52,8 @@ To remove a demo: `./scripts/delete-tenant.sh demo`.
 - **Server:** Ubuntu 22.04 or 24.04, 4 vCPU, 8 GB RAM and 80 GB SSD to start. Add RAM and CPU as tenants grow. A Saudi data center is preferable for data residency.
 - **Docker:** install Docker Engine with the Compose plugin (https://docs.docker.com/engine/install/ubuntu/).
 - **DNS:**
-  - `A  graceaccounts.sa` → the server IP
-  - `A  *.graceaccounts.sa` → the server IP (the wildcard, so every tenant subdomain works)
+  - `A  erp.gracelinkgroup.com` → the server IP
+  - `A  *.erp.gracelinkgroup.com` → the server IP (the wildcard, so every tenant subdomain works)
 
 ## 2. Install (once)
 
@@ -78,7 +84,7 @@ PULL_POLICY=always
 | Custom limits | `./scripts/set-plan.sh acme basic --limits '{"users": 8, "hr": true}'` |
 | See all customers and usage | `./scripts/list-tenants.sh` |
 | Back up (all or one) | `./scripts/backup.sh` / `./scripts/backup.sh acme` |
-| Restore | `./scripts/restore-tenant.sh acme backups/<date>/acme.graceaccounts.sa` |
+| Restore | `./scripts/restore-tenant.sh acme backups/<date>/acme.erp.gracelinkgroup.com` |
 | Update everything | `./scripts/update.sh` (backs up, rebuilds or pulls, migrates every tenant) |
 | Delete a customer | `./scripts/delete-tenant.sh acme` (backs up first, asks for confirmation) |
 | Demo company with sample data | `./scripts/demo-tenant.sh` |

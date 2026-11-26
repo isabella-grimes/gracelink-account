@@ -15,6 +15,9 @@ dc exec -T backend bash -c 'ls -1 apps > sites/apps.txt'
 failed=""
 for site in $(list_sites); do
   echo "==> Migrating $site"
+  # Tenants created before licence types existed: hosted here, so monthly subscription.
+  dc exec -T backend grep -q '"grace_license"' "sites/$site/site_config.json" \
+    || bench --site "$site" set-config grace_license subscription
   if bench --site "$site" migrate; then
     bench --site "$site" clear-cache
   else
