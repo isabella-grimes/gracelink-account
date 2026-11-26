@@ -3,16 +3,18 @@
 #
 #   ./scripts/new-tenant.sh acme --company "Acme Trading" --email owner@acme.sa --name "Ahmed Ali"
 #   ./scripts/new-tenant.sh erp.acme.sa --company "Acme" --email owner@acme.sa --name "Ahmed" --plan comprehensive
+#   ./scripts/new-tenant.sh skyways --company "Sky Ways Travel" --email owner@skyways.sa --name "Sara" --travel
 #
 # "acme" becomes acme.<PLATFORM_DOMAIN>. A full domain (with dots) is used as a custom domain;
 # point its DNS A record at this server first.
 # Options: --plan economic|basic|comprehensive (default from .env), --password <owner password>
-#          (generated if omitted), --lang ar|en (default ar), --abbr <company abbreviation>
+#          (generated if omitted), --lang ar|en (default ar), --abbr <company abbreviation>,
+#          --travel (travel agency: also installs GraceERP Travel)
 . "$(dirname "$0")/common.sh"
 
-[ $# -ge 1 ] || { sed -n '2,11p' "$0"; exit 1; }
+[ $# -ge 1 ] || { sed -n '2,13p' "$0"; exit 1; }
 SITE=$(site_name "$1"); shift
-COMPANY="" EMAIL="" NAME="" PLAN="${DEFAULT_PLAN:-basic}" PASSWORD="" LANG_CODE="ar" ABBR=""
+COMPANY="" EMAIL="" NAME="" PLAN="${DEFAULT_PLAN:-basic}" PASSWORD="" LANG_CODE="ar" ABBR="" TRAVEL=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --company) COMPANY="$2"; shift 2 ;;
@@ -22,6 +24,7 @@ while [ $# -gt 0 ]; do
     --password) PASSWORD="$2"; shift 2 ;;
     --lang) LANG_CODE="$2"; shift 2 ;;
     --abbr) ABBR="$2"; shift 2 ;;
+    --travel) TRAVEL=1; shift ;;
     *) echo "Unknown option: $1" >&2; exit 1 ;;
   esac
 done
@@ -31,10 +34,18 @@ site_exists "$SITE" && { echo "Site $SITE already exists." >&2; exit 1; }
 [ -n "$PASSWORD" ] || PASSWORD=$(random_password 14)
 ADMIN_PASSWORD=$(random_password 24)
 
-# Install order matters: erpnext first, grace_accounting last (its branding must win).
+# Install order matters: erpnext first, grace_travel after ksa_compliance (it uses its ZATCA
+# fields), grace_accounting last (its branding must win).
 AVAILABLE=" $(dc exec -T backend ls -1 apps | tr '\n' ' ') "
+if [ -n "$TRAVEL" ] && [[ "$AVAILABLE" != *" grace_travel "* ]]; then
+  echo "This image has no grace_travel. Rebuild or pull the image (see README, GraceERP Travel)." >&2
+  exit 1
+fi
+APPS="erpnext hrms ksa_compliance"
+[ -n "$TRAVEL" ] && APPS="$APPS grace_travel"
+APPS="$APPS grace_accounting"
 INSTALL_ARGS=()
-for app in erpnext hrms ksa_compliance grace_accounting; do
+for app in $APPS; do
   case "$AVAILABLE" in *" $app "*) INSTALL_ARGS+=(--install-app "$app") ;; esac
 done
 
@@ -65,6 +76,7 @@ print(json.dumps(kw))
 PY
 )
 bench --site "$SITE" execute grace_accounting.provisioning.setup_tenant --kwargs "$KWARGS"
+[ -n "$TRAVEL" ] && sync_ai_key
 
 write_route "$SITE"
 SCHEME=$([ "${TLS:-true}" = "true" ] && echo https || echo http)
@@ -90,3 +102,9 @@ Tenant ready.
 Send the owner their login. The Administrator password is saved in tenants/${SITE}.txt (keep it private).
 Next step for the customer: ZATCA onboarding (search "ZATCA Business Settings" after logging in).
 DONE
+if [ -n "$TRAVEL" ]; then
+  cat <<TRAVEL
+Travel agency: open Travel Settings > Check Setup. "Create Suggested Accounts" and
+"Set Up Default VAT" get the company ready to issue tickets (see README, GraceERP Travel).
+TRAVEL
+fi

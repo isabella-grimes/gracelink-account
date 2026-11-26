@@ -1,5 +1,7 @@
 # GraceERP Solution: platform
 
+**Deploying or updating a server? Follow [DEPLOY.md](DEPLOY.md), step by step.**
+
 This kit runs a ZATCA-compliant accounting service for many customer businesses from one server, like Alostaz.io. Each customer (tenant) gets:
 
 - their own site, with a separate database;
@@ -72,13 +74,15 @@ GRACE_IMAGE=ghcr.io/isabella-grimes/grace-accounts
 PULL_POLICY=always
 ```
 
-(If the GitHub package is private, run `docker login ghcr.io` on the server once.)
+The image contains GraceERP Travel, whose repository is private, so **keep the `grace-accounts` package private** on GitHub and run `docker login ghcr.io` on the server once (see [DEPLOY.md](DEPLOY.md)). The GitHub build needs the `GRACE_REPO_TOKEN` secret; building on the server (`build.sh`) needs `GRACE_REPO_TOKEN` in `.env`.
 
 ## 3. Run the business
 
 | Task | Command |
 |---|---|
 | New customer | `./scripts/new-tenant.sh acme --company "Acme Trading" --email owner@acme.sa --name "Ahmed Ali" --plan basic` |
+| New travel agency | `./scripts/new-tenant.sh skyways --company "Sky Ways Travel" --email owner@skyways.sa --name "Sara" --travel` |
+| Make a customer a travel agency | `./scripts/enable-travel.sh acme` (backs up first) |
 | Customer with own domain | `./scripts/new-tenant.sh erp.acme.sa --company ... ` (point their DNS A record at the server first) |
 | Change plan | `./scripts/set-plan.sh acme comprehensive` |
 | Custom limits | `./scripts/set-plan.sh acme basic --limits '{"users": 8, "hr": true}'` |
@@ -98,6 +102,16 @@ PULL_POLICY=always
 The Administrator password stays with you, in `tenants/<site>.txt`. Customers use their owner account, so plan limits apply to them.
 
 **Customer's first step:** log in, open **ZATCA Business Settings**, and onboard with the OTP from the Fatoora portal. Test in the simulation environment first, then switch to production.
+
+## GraceERP Travel
+
+Travel agencies get the travel back office as well: air tickets, refunds and voids, hotel/visa/Umrah vouchers, booking files, travel reports, Smart Import (CSV/Excel from any system) and Ask GRACE (AI questions about their data). Every invoice still goes through ZATCA.
+
+- **New agency:** `new-tenant.sh ... --travel`. **Existing customer:** `enable-travel.sh <tenant>`.
+- **Then, in the tenant:** *Travel Settings > Set Up Company*: *Create Suggested Accounts*, *Set Up Default VAT* (choose the VAT account), then *Check Setup* until it says *Ready to issue tickets*.
+- **ZATCA:** business customers need their VAT number in *VAT Registration Number* and a complete address (building number, district, postal code). Tickets stop before posting otherwise.
+- **AI (optional):** put one Anthropic key in `.env` as `ANTHROPIC_API_KEY`; `update.sh`, `new-tenant.sh --travel` and `enable-travel.sh` share it with every tenant. Each tenant's administrator turns AI on and sets its limits in *Grace AI Settings*.
+- **Updates:** the image picks up the travel app's `main` branch when it's built (weekly, or *Actions > Build image > Run workflow*). Then `./scripts/update.sh`.
 
 ## 4. Plans
 
