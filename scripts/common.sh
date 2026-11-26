@@ -65,6 +65,16 @@ YAML
 
 remove_route() { rm -f "traefik/dynamic/site-${1}.yml"; }
 
+# The shared Anthropic key (ANTHROPIC_API_KEY in .env) for every tenant, in common_site_config.
+# Passed on stdin (not "dc", which closes stdin), so it never shows in a process list.
+sync_ai_key() {
+  [ -n "${ANTHROPIC_API_KEY:-}" ] || return 0
+  printf '%s' "$ANTHROPIC_API_KEY" | docker compose --project-name grace --env-file .env -f compose.yaml \
+    exec -T backend env/bin/python -c 'import sys; from frappe.installer import update_site_config; update_site_config("anthropic_api_key", sys.stdin.read().strip(), site_config_path="sites/common_site_config.json")'
+}
+
+has_app() { dc exec -T backend test -d "apps/$1"; }
+
 random_password() {
   python3 -c 'import secrets,string,sys; a=string.ascii_letters+string.digits; print("".join(secrets.choice(a) for _ in range(int(sys.argv[1]))))' "${1:-20}"
 }

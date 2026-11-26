@@ -12,6 +12,7 @@ else
 fi
 dc up -d --force-recreate
 dc exec -T backend bash -c 'ls -1 apps > sites/apps.txt'
+sync_ai_key
 failed=""
 for site in $(list_sites); do
   echo "==> Migrating $site"
