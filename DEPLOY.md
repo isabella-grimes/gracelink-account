@@ -7,21 +7,16 @@ You need:
 - DNS: `A erp.gracelinkgroup.com` and `A *.erp.gracelinkgroup.com` → the server IP;
 - outbound internet from the server to `github.com`, `ghcr.io`, `pypi.org`, `gw-fatoora.zatca.gov.sa` and, for AI, `api.anthropic.com`.
 
-## 0. GitHub: let the image build read the private travel app (once)
+## 0. GitHub: build the image (once, then weekly by itself)
 
-GraceERP Travel lives in the private repository `isabella-grimes/G.R.A.C.E`. The image build needs read access to it.
+The travel app's repository (`isabella-grimes/G.R.A.C.E`) is public, so the build needs no token.
 
-1. **Create a read-only token** (*GitHub* → your avatar → *Settings* → *Developer settings* → *Personal access tokens* → *Fine-grained tokens* → *Generate new token*):
-   - *Repository access*: **Only select repositories** → `isabella-grimes/G.R.A.C.E`;
-   - *Permissions*: **Contents: Read-only** (nothing else);
-   - expiry: up to a year, and put the renewal date in your calendar.
-2. **Save it as a secret of the platform repo** (*GitHub* → `isabella-grimes/gracelink-account` → *Settings* → *Secrets and variables* → *Actions* → *New repository secret*):
-   - name: `GRACE_REPO_TOKEN`, value: the token.
-3. **Build the image** (*GitHub* → `gracelink-account` → *Actions* → *Build image* → *Run workflow*, branch `platform`). It takes 15–25 minutes and publishes `ghcr.io/isabella-grimes/grace-accounts:16`. It also rebuilds every Sunday by itself.
-4. **Keep the image private.** It now contains the travel app's code. *GitHub* → your avatar → *Your profile* → *Packages* → `grace-accounts` → *Package settings* → *Danger zone* → *Change visibility* → **Private**.
-5. **A token for the server to pull the image:** *Personal access tokens* → *Tokens (classic)* → *Generate new token (classic)* → scope **`read:packages`** only. GitHub's registry accepts only classic tokens. You'll use it in step A3/B2.
+1. **Build the image:** *GitHub* → `gracelink-account` → *Actions* → *Build image* → *Run workflow*, branch `platform`. It takes 15–25 minutes and publishes `ghcr.io/isabella-grimes/grace-accounts:16`. It also rebuilds every Sunday by itself.
+2. **Is the image public or private?** *GitHub* → your avatar → *Your profile* → *Packages* → `grace-accounts`.
+   - **Public:** the server pulls it without logging in.
+   - **Private:** the server logs in once. Create a classic token (*Settings* → *Developer settings* → *Personal access tokens* → *Tokens (classic)*) with only the **`read:packages`** scope. GitHub's registry accepts only classic tokens. You'll use it in step A3/B2.
 
-The token from step 1 is never stored in the image: the build uses it to clone, then deletes every `.git` folder.
+If you ever make `G.R.A.C.E` private again: mark it `"private": true` in `apps.json`, add a read-only token as the Actions secret `GRACE_REPO_TOKEN` (or in `.env` for `build.sh`), and make the image private too. The build uses the token only to clone; it never reaches the image.
 
 ## A. Fresh server
 
@@ -49,11 +44,11 @@ GRACE_IMAGE=ghcr.io/isabella-grimes/grace-accounts
 PULL_POLICY=always
 ANTHROPIC_API_KEY=<optional: the GraceLink key for Ask GRACE>
 ```
-Log in to the registry once, with the classic token from step 0.5 as the password:
+If the image is private (step 0.2), log in to the registry once, with the classic token as the password:
 ```bash
 docker login ghcr.io -u isabella-grimes
 ```
-*(Building on the server instead of GitHub: leave `GRACE_IMAGE=grace-accounts`, `PULL_POLICY=missing`, and set `GRACE_REPO_TOKEN=<token from step 0.1>`. Then A4 builds the image here, in 10–20 minutes.)*
+*(Building on the server instead of GitHub: leave `GRACE_IMAGE=grace-accounts` and `PULL_POLICY=missing`. Then A4 builds the image here, in 10–20 minutes.)*
 
 **A4. Start**
 ```bash
@@ -82,8 +77,8 @@ git pull                          # branch platform
 ```
 ANTHROPIC_API_KEY=<optional>
 ```
-- **If you pull from GitHub** (`GRACE_IMAGE=ghcr.io/...`): do step 0, then `docker login ghcr.io -u isabella-grimes` (classic `read:packages` token).
-- **If you build on the server** (`GRACE_IMAGE=grace-accounts`): add `GRACE_REPO_TOKEN=<token from step 0.1>`.
+- **If you pull from GitHub** (`GRACE_IMAGE=ghcr.io/...`): do step 0. If the image is private, run `docker login ghcr.io -u isabella-grimes` (classic `read:packages` token).
+- **If you build on the server** (`GRACE_IMAGE=grace-accounts`): nothing to add.
 
 `.env.example` now defaults to `erp.gracelinkgroup.com`. Changing `PLATFORM_DOMAIN` in your `.env` only names **new** tenants; existing ones keep their address.
 
@@ -143,7 +138,8 @@ It prints the URL (`https://skyways.erp.gracelinkgroup.com`) and the owner's pas
 
 | Symptom | Fix |
 |---|---|
-| Build fails: *"…G.R.A.C.E is a private repository. Set GRACE_REPO_TOKEN…"* | Add the secret (step 0.2) or `GRACE_REPO_TOKEN` in `.env`. Check the token hasn't expired and can read `G.R.A.C.E`. |
+| Build fails: *"…G.R.A.C.E is a private repository. Set GRACE_REPO_TOKEN…"* | `G.R.A.C.E` is marked private in `apps.json`: add the token (see the end of step 0), or remove the mark if the repository is public. |
+| Build fails cloning `G.R.A.C.E` (*Authentication failed* / *not found*) | The repository was made private again: see the end of step 0. |
 | `dc pull` / `install.sh`: *denied* or *unauthorized* from ghcr.io | `docker login ghcr.io -u isabella-grimes` with a classic token with `read:packages`. |
 | `new-tenant.sh --travel`: *This image has no grace_travel* | The image predates the travel app: rebuild (step 0.3), then `./scripts/update.sh`. |
 | A ticket stops: *ZATCA clears standard invoices only with the customer's full address* | Complete the customer's default address (C2.4). |

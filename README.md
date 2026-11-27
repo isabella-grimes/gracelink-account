@@ -74,7 +74,7 @@ GRACE_IMAGE=ghcr.io/isabella-grimes/grace-accounts
 PULL_POLICY=always
 ```
 
-The image contains GraceERP Travel, whose repository is private, so **keep the `grace-accounts` package private** on GitHub and run `docker login ghcr.io` on the server once (see [DEPLOY.md](DEPLOY.md)). The GitHub build needs the `GRACE_REPO_TOKEN` secret; building on the server (`build.sh`) needs `GRACE_REPO_TOKEN` in `.env`.
+The image also contains GraceERP Travel (public repository `isabella-grimes/G.R.A.C.E`). If the `grace-accounts` package is private, run `docker login ghcr.io` on the server once (see [DEPLOY.md](DEPLOY.md)). A private app repository can be built too: mark it `"private": true` in `apps.json` and set the `GRACE_REPO_TOKEN` secret (or `.env` for `build.sh`).
 
 ## 3. Run the business
 
