@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Write the apps.json the image build uses to <output file>. Apps marked "private": true
-# (the GraceERP Travel repo, G.R.A.C.E) are cloned with GRACE_REPO_TOKEN, a GitHub token
+# (e.g. a private app repository) are cloned with GRACE_REPO_TOKEN, a GitHub token
 # that can read them: from .env on the server, or the repository secret on GitHub.
 # The token is only used to clone during the build. frappe_docker deletes every app's .git
 # folder before the final image is made, so it never ends up in the image. Never commit it.
@@ -14,6 +14,11 @@ import json, os, sys
 apps = json.load(open("apps.json"))
 token = os.environ.get("GRACE_REPO_TOKEN", "").strip()
 for app in apps:
+    # bench names an app after its repository and cuts the name at the first dot
+    # ("G.R.A.C.E" becomes "G"), then can't find the clone. Stop here with a clear message.
+    repo = app["url"].rstrip("/").rsplit("/", 1)[-1].removesuffix(".git")
+    if "." in repo:
+        sys.exit(f"{app['url']}: bench can't install a repository whose name contains a dot. Rename the repository (e.g. to its app name) and update apps.json.")
     if app.pop("private", False):
         if not token:
             sys.exit(
