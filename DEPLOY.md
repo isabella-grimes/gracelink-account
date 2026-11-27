@@ -9,14 +9,14 @@ You need:
 
 ## 0. GitHub: build the image (once, then weekly by itself)
 
-The travel app's repository (`isabella-grimes/grace_travel`) is public, so the build needs no token.
+The travel app's code repository (`isabella-grimes/grace-accounts`; not to be confused with the `grace-accounts` image package) is public, so the build needs no token.
 
 1. **Build the image:** *GitHub* → `gracelink-account` → *Actions* → *Build image* → *Run workflow*, branch `platform`. It takes 15–25 minutes and publishes `ghcr.io/isabella-grimes/grace-accounts:16`. It also rebuilds every Sunday by itself.
 2. **Is the image public or private?** *GitHub* → your avatar → *Your profile* → *Packages* → `grace-accounts`.
    - **Public:** the server pulls it without logging in.
    - **Private:** the server logs in once. Create a classic token (*Settings* → *Developer settings* → *Personal access tokens* → *Tokens (classic)*) with only the **`read:packages`** scope. GitHub's registry accepts only classic tokens. You'll use it in step A3/B2.
 
-If you ever make `grace_travel` private again: mark it `"private": true` in `apps.json`, add a read-only token as the Actions secret `GRACE_REPO_TOKEN` (or in `.env` for `build.sh`), and make the image private too. The build uses the token only to clone; it never reaches the image.
+If you ever make the travel repository private again: mark it `"private": true` in `apps.json`, add a read-only token as the Actions secret `GRACE_REPO_TOKEN` (or in `.env` for `build.sh`), and make the image private too. The build uses the token only to clone; it never reaches the image.
 
 ## A. Fresh server
 
@@ -138,9 +138,9 @@ It prints the URL (`https://skyways.erp.gracelinkgroup.com`) and the owner's pas
 
 | Symptom | Fix |
 |---|---|
-| Build fails: *"…grace_travel is a private repository. Set GRACE_REPO_TOKEN…"* | `grace_travel` is marked private in `apps.json`: add the token (see the end of step 0), or remove the mark if the repository is public. |
+| Build fails: *"…grace-accounts is a private repository. Set GRACE_REPO_TOKEN…"* | The travel repository is marked private in `apps.json`: add the token (see the end of step 0), or remove the mark if the repository is public. |
 | Build fails: *"No such file or directory: …/apps/G/setup.py"*, or *"bench can't install a repository whose name contains a dot"* | An app's repository name has a dot (bench cuts the name there). Rename the repository and update `apps.json`. |
-| Build fails cloning `grace_travel` (*Authentication failed* / *not found*) | The repository was made private again: see the end of step 0. |
+| Build fails cloning `isabella-grimes/grace-accounts` (*Authentication failed* / *not found*) | The repository was made private again: see the end of step 0. |
 | `dc pull` / `install.sh`: *denied* or *unauthorized* from ghcr.io | `docker login ghcr.io -u isabella-grimes` with a classic token with `read:packages`. |
 | `new-tenant.sh --travel`: *This image has no grace_travel* | The image predates the travel app: rebuild (step 0.3), then `./scripts/update.sh`. |
 | A ticket stops: *ZATCA clears standard invoices only with the customer's full address* | Complete the customer's default address (C2.4). |

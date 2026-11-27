@@ -29,7 +29,7 @@ jobs:
           path: frappe_docker
       - name: apps.json with access to the private travel repository
         # GRACE_REPO_TOKEN: Settings > Secrets and variables > Actions. A fine-grained token
-        # with read-only "Contents" on isabella-grimes/grace_travel. Only used to clone; the
+        # with read-only "Contents" on isabella-grimes/grace-accounts. Only used to clone; the
         # build deletes the .git folders, so it never reaches the image.
         env:
           GRACE_REPO_TOKEN: ${{ secrets.GRACE_REPO_TOKEN }}
